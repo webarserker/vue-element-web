@@ -93,7 +93,7 @@ v-router代码是采取节约性能模式，即：对浏览器地址url的设置
 优点：`v-router`的组件不复用，只是对当前组件的不复用，但是对当前组件的子组件缺可以刷新，包括请求，修改数据等可以利用该钩子  
 4.2 `watch` 监听 `$router`  
 弊端：开启v-router的复用功能，则永远不会调用  
-优点：其实和`beforRouterUpdate`一个效果
+优点：其实和`beforRouterUpdate`一个效果  
 4.3 对`App.vue`根文件修改 `<router-view :key="$route.fullPath"/>`  
 弊端：所有key识别了全字段的url full相对应全url，path对应/book/，只匹配到这里，加了和没加没有区别，开发可以加，上线要性能就删掉  
 优点：方便开发  
