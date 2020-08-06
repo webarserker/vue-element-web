@@ -87,17 +87,19 @@ vue渲染表格达到数据解析。
 > 3.对表格优化
 v-router代码是采取节约性能模式，即：对浏览器地址url的设置不管你怎么修改都是不重新渲染页面组件，好处：节约性能，防止用户
 改来改去，导致内存溢出。缺点：调试不方便，需要每次F5刷新，其实也没啥。然后绑定数据，绑定pagination组件，这个是vue-element-admin二次封装过的代码很方便  
-> 4.对url修改刷新页面的4种方案
+> 4.对url修改刷新页面的4种方案  
 4.1：`beforRouterUpdate`  
 弊端：只在不重用的组件内可以使用，如果关掉`v-router`的复用功能，则永远不会调用  
-优点：`v-router`的组件不复用，只是对当前组件的不复用，但是对当前组件的子组件缺可以刷新，包括请求，修改数据等可以利用该钩子
+优点：`v-router`的组件不复用，只是对当前组件的不复用，但是对当前组件的子组件缺可以刷新，包括请求，修改数据等可以利用该钩子  
 4.2 `watch` 监听 `$router`  
 弊端：开启v-router的复用功能，则永远不会调用  
 优点：其实和`beforRouterUpdate`一个效果
 4.3 对`App.vue`根文件修改 `<router-view :key="$route.fullPath"/>`  
 弊端：所有key识别了全字段的url full相对应全url，path对应/book/，只匹配到这里，加了和没加没有区别，开发可以加，上线要性能就删掉  
 优点：方便开发  
-4.4 传统的写法：lodash的函数防抖，改造函数`this.debouncedGetAnswer = _.debounce(this.handFilter, 500)`
+4.4 传统的写法：lodash的函数防抖，改造函数`\vue-element-admin\src\views\book\list.vue`下面的`this.debouncedGetAnswer = _.debounce(this.handFilter, 500)`  
+弊端：目前没事弊病，就是写法老旧，但是确实有效  
+优点：很多按钮，表格都要加这个属性，防止用户或者机器人刷爆你服务器  
 
 前端化思路在这里就产生了质变：URL优化。以往的前端都是把数据丢到cookie或者session里面，但是其实可以把数据直接push到url里面用路由
 保存前端数据值，然后用户的操作发送请求，都是对url修改，让aixos直接带上用户的url到后端去请求数据，非常的方便快捷，可以说这点不通，前端永远是小白  
