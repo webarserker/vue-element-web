@@ -34,11 +34,11 @@
 登录功能：重难点，可以说掌握了这个流程的前端工程师，已经不是小白了，是中级工程师
 > 登录流程：用户输入用户名，密码，对这里进行一次匹配检测，最少输入多少字符等等，发送到后端，后端验证后，前端的全局axios拦截
 > request，切到登录后的页面，即算是完成了一次简易登录，注意：这样的登录毫无安全性可言，服务器极其容易遭受攻击
-> 前端必须要的安全性科普：可以看我另外一篇文章 https://github.com/webarserker/webarserker-typescrpit-axios 是本人不才，跟着
+> 前端必须要的安全性科普：可以看我另外一篇文章 `https://github.com/webarserker/webarserker-typescrpit-axios` 是本人不才，跟着
 > 前滴滴前端开发，现zoom前端开发黄奕老师走的流程，懂了很多新奇的玩意。包括csrf攻击等等。这里不谈大的，就谈前端和后端怎么修改请求头
 > 搞定加密传输。
 
-前端加密流程：这个不懂，永远不成大器。jsonwebtoken这个插件，配合这个网站https://jwt.io/ 当然，要科学上网，虽然最近越来越严了
+前端加密流程：这个不懂，永远不成大器。`jsonwebtoken`这个插件，配合这个网站`https://jwt.io/` 当然，要科学上网，虽然最近越来越严了
 
 > 后端先在 \vue-element-node\router\jwt.js 这个文件里面生成一个密室丢通过login给前端，由于白名单是给到了login，所以用户不需要一开始
 > 就走进死循环，没有密匙就登录不了，先有鸡还是先有蛋。
@@ -50,10 +50,10 @@
 后端加密流程:
 
 > 后端uitls文件夹下方constant.js先定一个PRTVATE_KEY密匙，然后uitls/index.js 里面decoded这里通过规范，jwt必须以Bearer开头，否则你就
-> 别传，后端解析不了的。前端在D:\vue小慕书\templete\vue-element-admin\src\components\EbookUpload\index.vue 里面的Authorization：`Bearer ${getToken()}`
-> 以及D:\vue小慕书\templete\vue-element-admin\src\utils\request.js 对全局请求都加上这个config.headers['Authorization'] = `Bearer ${getToken()}` 
+> 别传，后端解析不了的。前端在`\vue-element-admin\src\components\EbookUpload\index.vue` 里面的Authorization：`Bearer ${getToken()}`
+> 以及`\vue-element-admin\src\utils\request.js` 对全局请求都加上这个`config.headers['Authorization']` = `Bearer ${getToken()}` 
 > 这里来讲讲全局请求拦截的好处：一处修改，处处可用，保证前端每一个请求都带了这个jwt验证，虽然有些项目或者页面，按钮后端不需要这个jwt验证，可以添加白名单，
-> 这里是登录页面发送的请求就是白名单：D:\vue小慕书\templete\vue-element-node\router\jwt.js ；最新的expressJwt需要加入指定类型的算法algorithms: ['HS256'],
+> 这里是登录页面发送的请求就是白名单：`\vue-element-node\router\jwt.js` ；最新的expressJwt需要加入指定类型的算法`algorithms: ['HS256']`,
 > 否则会报错，使用不了，这个npm包也支持很多种加密算法，这里是HS256算法，100年可以破解我的密码，天河计算机只要2年，比特币的总服务器估计2天吧，量子计算器
 > 谷歌说只要3分钟，反正这个级别的加密很难破解。
 	
@@ -69,8 +69,8 @@ vue渲染表格达到数据解析。
 > 3.目录解析：后端直接出epub库解析出来的文件目录并不适合前端 elementUI目录结构，需要在后端查询转换数据格式然后返回给前端渲染生成，这一步放到后端完成，前端做的话会很卡，甚至抛出异常
 > 4.新增图书功能：连接Nginx，利用的是https请求，对config配置为支持所有服务器访问，没有做局域网限制，但是在后续开发中需要设定一个局域网，只对公司内部开放服务，这样安全性很高。基本逻辑：不管数据库有没有该书，先上传，解析，然后等待用户提交，用户单击提交功能后，先去查询一次数据库有没有同名数据，对出版社，作者，书名，三个字段做匹配，确保真的没有。
 	if(有该数据) { 
-		直接抛出给异常通过boombadRequest，前端拿到该异常数据接口返回的msg，提升给用户，vue-element-admin确实好用，是默认捕获错误，
-		我们不需要多写什么,但是只是捕获错误，真正的准确的错误提升在后端是全局兜底模块router/index.js 最下方利用boom生成 序列化的错误代码
+		直接抛出给异常通过`boombadRequest`，前端拿到该异常数据接口返回的msg，提升给用户，vue-element-admin确实好用，是默认捕获错误，
+		我们不需要多写什么,但是只是捕获错误，真正的准确的错误提升在后端是全局兜底模块`router/index.js` 最下方利用boom生成 序列化的错误代码
 		可以说，前后端项目就是利用错误进行沟通，一堆边界问题，并不是只靠前端或者后端对逻辑的处理，还要考兜底报错来告诉用户，不要这样做。
 		然后删除Nginx什么的缓存数据，数据库缓存数据。	
 	} else {
@@ -97,4 +97,4 @@ v-router代码是采取节约性能模式，即：对浏览器地址url的设置
 返回给后端，后端拿到查询编排即可。但是问题是，有些项目格式名称都不对的文件，只能建议修改数据库，不然你直接自己写一个能解析epub的文件重新搞，没空就没写了
 写了肯定有提升。而且，改数据库，也就一个上午的时间，可以写算法去sql，不需要太麻烦
 	
-	功能三：待续，后续写完会有自己的感悟
+功能三：待续，后续写完会有自己的感悟
